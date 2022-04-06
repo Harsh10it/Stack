@@ -1,16 +1,13 @@
-﻿using System;
+using System;
+using System.IO;
 
 
 namespace Exception_Stack
 {
    public  class StackException : Exception
     {
-        public StackException()
-        {
-           Console.WriteLine("Stack is empty or full");
-
-
-        }
+        public StackException(string message) : base(message)
+        { }
     }
 
   public  class MyStack
@@ -28,22 +25,40 @@ namespace Exception_Stack
 
         public void Push(int value)
         {
-            if (this.topOfStack == this.n - 1)
-                throw new StackException();
-            else
-                this.stack[++this.topOfStack] = value;
+            try
+            {
+                if (this.topOfStack == this.n - 1)
+                    throw new StackException("Stack is full");
+                else
+                    this.stack[++this.topOfStack] = value;
+            }
+            catch (StackException e) {
+
+                Console.WriteLine(e.Message);
+            }
+            
         }
 
         public void Pop()
         {
-        
-             if (this.topOfStack == -1)
-                throw new StackException();
-            else
+
+            try
             {
-                Console.WriteLine("{0} popped", this.stack[this.topOfStack]);
-                this.topOfStack--;
+                if (this.topOfStack == -1)
+                    throw new StackException("Stack is empty ");
+                else
+                {
+                    Console.WriteLine("{0} popped", this.stack[this.topOfStack]);
+                    this.topOfStack--;
+                }
             }
+            catch (StackException e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+           
+            
         }
 
         public void DisplayStack()
